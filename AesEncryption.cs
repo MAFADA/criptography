@@ -7,21 +7,28 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace AesEncryption{
-    class Program{
-        static void Main(string[] args){
+namespace AesEncryption
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             AESCryptography protection = new AESCryptography();
             RSACryptography rs = new RSACryptography();
 
             string ciph = string.Empty;
+            string AESciph = string.Empty;
 
-            try
+            Console.WriteLine("Enter text: ");
+            var text = Console.ReadLine();
+            if (!string.IsNullOrEmpty(text))
             {
-                using (Aes aes = Aes.Create()){
-                    Write("Enter some text:");
-                    string text = ReadLine();
+                ciph = rs.Encrypt(text);
+                Console.WriteLine(Environment.NewLine + $"RSA Encrypted Text: {ciph}");
 
-                    byte[] encrypted = protection.Encrypt(text,aes.Key,aes.IV);
+                using (Aes aes = Aes.Create())
+                {
+                    byte[] encrypted = protection.Encrypt(ciph, aes.Key, aes.IV);
                     string eText = String.Empty;
                     eText += System.Text.Encoding.ASCII.GetString(encrypted);
                     // foreach (var b in encrypted)
@@ -29,40 +36,46 @@ namespace AesEncryption{
                     //     eText += b.ToString()+", ";
                     // }
 
-                    WriteLine(Environment.NewLine + $"Encrypted text: {eText}");
-                    
-                    string decrypted = protection.Decrypt(encrypted,aes.Key,aes.IV);
-                    WriteLine(Environment.NewLine + $"Decrypted text: {decrypted}");
+                    WriteLine(Environment.NewLine + $"AES Encrypted Text: {eText}");
+
+                    string AESdecrypted = protection.Decrypt(encrypted, aes.Key, aes.IV);
+                    WriteLine(Environment.NewLine + $"AES Decrypted text: {AESdecrypted}");
+                    AESciph += AESdecrypted;
                 }
-            }
-            catch (Exception e)
-            {
-                WriteLine(Environment.NewLine + $"Error: {e.Message}");
+
+                var plainText = rs.Decrypt(AESciph);
+                Console.WriteLine(Environment.NewLine + $"RSA Decrypted Text: {plainText}");
             }
 
             WriteLine(Environment.NewLine + "Press any key to continue");
             ReadKey();
         }
     }
-    
-    class AESCryptography{
-        public byte[] Encrypt(string Text,byte[] Key, byte[] IV){
+
+    class AESCryptography
+    {
+        public byte[] Encrypt(string Text, byte[] Key, byte[] IV)
+        {
             // check value
             if (Text == null || Text.Length <= 0) throw new ArgumentNullException("Text");
             if (Key == null || Key.Length <= 0) throw new ArgumentNullException("Key");
             if (IV == null || IV.Length <= 0) throw new ArgumentNullException("IV");
-            
+
             byte[] eData;
 
             // create AES object w/ specified key and iv
 
-            using (Aes aes = Aes.Create()){
+            using (Aes aes = Aes.Create())
+            {
                 aes.Key = Key;
                 aes.IV = IV;
 
-                using (MemoryStream ms = new MemoryStream()){
-                    using (CryptoStream cs = new CryptoStream(ms,aes.CreateEncryptor(aes.Key, aes.IV),CryptoStreamMode.Write)){
-                        using (StreamWriter sw = new StreamWriter(cs)){
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(aes.Key, aes.IV), CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter sw = new StreamWriter(cs))
+                        {
                             sw.Write(Text);
                         }
 
@@ -73,21 +86,26 @@ namespace AesEncryption{
             return eData;
         }
 
-        public string Decrypt(byte[] cText, byte[] Key, byte[] IV){
+        public string Decrypt(byte[] cText, byte[] Key, byte[] IV)
+        {
             if (cText == null || cText.Length <= 0) throw new ArgumentNullException("cText");
             if (Key == null || Key.Length <= 0) throw new ArgumentNullException("Key");
             if (IV == null || IV.Length <= 0) throw new ArgumentNullException("IV");
 
             string dData;
 
-            using (Aes aes = Aes.Create()){
+            using (Aes aes = Aes.Create())
+            {
                 aes.Key = Key;
                 aes.IV = IV;
 
-                using (MemoryStream ms = new MemoryStream(cText)){
-                    using (CryptoStream cs = new CryptoStream(ms,aes.CreateDecryptor(aes.Key,aes.IV),CryptoStreamMode.Read)){
-                        using (StreamReader sr = new StreamReader(cs)){
-                           
+                using (MemoryStream ms = new MemoryStream(cText))
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read))
+                    {
+                        using (StreamReader sr = new StreamReader(cs))
+                        {
+
                             dData = sr.ReadToEnd();
                         }
                     }
@@ -97,7 +115,8 @@ namespace AesEncryption{
         }
     }
 
-    class RSACryptography{
+    class RSACryptography
+    {
         private static RSACryptoServiceProvider csp = new RSACryptoServiceProvider(2048);
         private RSAParameters _privateKey;
         private RSAParameters _publicKey;
@@ -115,18 +134,20 @@ namespace AesEncryption{
         //     return sw.ToString();
         // }
 
-        public string Encrypt(string plainText){
+        public string Encrypt(string plainText)
+        {
             csp = new RSACryptoServiceProvider();
             csp.ImportParameters(_publicKey);
             var data = Encoding.Unicode.GetBytes(plainText);
-            var cypher = csp.Encrypt(data,false);
+            var cypher = csp.Encrypt(data, false);
             return Convert.ToBase64String(cypher);
         }
 
-        public string Decrypt(string cipherText){
+        public string Decrypt(string cipherText)
+        {
             var dataBytes = Convert.FromBase64String(cipherText);
             csp.ImportParameters(_privateKey);
-            var plainText = csp.Decrypt(dataBytes,false);
+            var plainText = csp.Decrypt(dataBytes, false);
             return Encoding.Unicode.GetString(plainText);
         }
     }
