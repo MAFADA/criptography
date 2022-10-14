@@ -1,0 +1,15 @@
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.csproj.AssemblyReference.cache
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.GeneratedMSBuildEditorConfig.editorconfig
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.AssemblyInfoInputs.cache
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.AssemblyInfo.cs
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.csproj.CoreCompileInputs.cache
+C:\PERSONAL\Projects\C#\criptography\bin\Debug\net6.0\criptography.exe
+C:\PERSONAL\Projects\C#\criptography\bin\Debug\net6.0\criptography.deps.json
+C:\PERSONAL\Projects\C#\criptography\bin\Debug\net6.0\criptography.runtimeconfig.json
+C:\PERSONAL\Projects\C#\criptography\bin\Debug\net6.0\criptography.dll
+C:\PERSONAL\Projects\C#\criptography\bin\Debug\net6.0\criptography.pdb
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.dll
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\refint\criptography.dll
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.pdb
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\criptography.genruntimeconfig.cache
+C:\PERSONAL\Projects\C#\criptography\obj\Debug\net6.0\ref\criptography.dll
