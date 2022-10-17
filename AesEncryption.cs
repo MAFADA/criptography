@@ -30,7 +30,7 @@ namespace AesEncryption
                 {
                     byte[] encrypted = protection.Encrypt(ciph, aes.Key, aes.IV);
                     string eText = String.Empty;
-                    eText += System.Text.Encoding.ASCII.GetString(encrypted);
+                    eText += Convert.ToBase64String(encrypted);
                     // foreach (var b in encrypted)
                     // {
                     //     eText += b.ToString()+", ";
